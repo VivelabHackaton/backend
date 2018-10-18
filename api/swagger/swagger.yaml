@@ -18,6 +18,26 @@ consumes:
 produces:
   - application/json
 paths:
+  /login:
+    x-swagger-router-controller: login
+    post:
+      description: login
+      operationId: login
+      parameters:
+        - in: body
+          name: loginForm
+          description: The user to authenticate
+          schema:
+            $ref: "#/definitions/loginForm"
+      responses:
+        "201":
+          description: Success
+          schema:
+            $ref: "#/definitions/GeneralResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /hello:
     # binds a127 app logic to a route
     x-swagger-router-controller: hello_world
@@ -46,6 +66,12 @@ paths:
     x-swagger-pipe: swagger_raw
 # complex objects have schema definitions
 definitions:
+  loginForm:
+      properties:
+        email:
+          type: string
+        password:
+          type: string
   HelloWorldResponse:
     required:
       - message
@@ -53,6 +79,12 @@ definitions:
       message:
         type: string
   ErrorResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+  GeneralResponse:
     required:
       - message
     properties:
